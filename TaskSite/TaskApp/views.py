@@ -18,7 +18,7 @@ def dashboard(request):
 
 def add_task(request):
     if request.method == 'POST':
-        form = TaskForm(request.post)
+        form = TaskForm(request.POST)
         if form.is_valid():
             form.save()
             return redirect('landing_page')
