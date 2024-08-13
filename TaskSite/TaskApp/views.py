@@ -1,8 +1,8 @@
 from datetime import datetime, timedelta
 
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 from .models import Task
-
+from .forms import TaskForm
 
 # Create your views here.
 
@@ -17,7 +17,14 @@ def dashboard(request):
     return render(request, 'dashboard.html')
 
 def add_task(request):
-    return render(request, 'add_task.html')
+    if request.method == 'POST':
+        form = TaskForm(request.post)
+        if form.is_valid():
+            form.save()
+            return redirect('landing_page')
+    else:
+        form= TaskForm()
+    return render(request, 'add_task.html', {'form': form})
 
 def login(request):
     return render(request, 'login.html')
