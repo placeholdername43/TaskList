@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard </title>
+</head>
+<body>
+    <h1>Task Report</h1>
+    <strong> Total Urgent Tasks Due in the next 30 Days: {{ total_urgent_tasks }}</strong>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>User Email</th>
+                <th>Task</th>
+                <th>Due By</th>
+                <th>Priority</th>
+                <th>Is Urgent?</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for task in tasks %}
+            <tr>
+                <td>{{ task.user_email }}</td>
+                <td>{{ task.task }}</td>
+                <td>{{ task.due_by }}</td>
+                <td>{{ task.get_priority_display }}</td>
+                <td>{{ task.is_urgent|yesno:"Yes,No" }}</td>
+            </tr>
+            {% endfor %}
+            
+        </tbody>
+    </table>
+
+</body>
+</html>

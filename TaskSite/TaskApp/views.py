@@ -10,11 +10,19 @@ def landing_page(request):
     return render(request, 'landing_page.html')
 
 def dashboard(request):
+    tasks = Task.objects.all()
     next_30_days = datetime.now() + timedelta(days=30)
-    tasks = Task.objects()
     tasks_due_in_30d = Task.objects.filter(due_by__lte = next_30_days)
+    urgent_tasks = tasks_due_in_30d.filter(is_urgent = True).count()
 
-    return render(request, 'dashboard.html')
+    taskData = {
+        'tasks' : tasks,
+        'tasks_due_in_30d' : tasks_due_in_30d,
+        'total_urgent_tasks' : urgent_tasks,
+
+    }
+
+    return render(request, 'dashboard.html', taskData)
 
 def add_task(request):
     if request.method == 'POST':
