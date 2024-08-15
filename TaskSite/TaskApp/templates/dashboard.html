@@ -28,9 +28,18 @@
                 <td>{{ task.is_urgent|yesno:"Yes,No" }}</td>
             </tr>
             {% endfor %}
-            
         </tbody>
     </table>
+
+    <div class = "line-chart">
+        <h2> Line chart of all tasks due in the next 30 days </h2>
+        {{ line_chart|safe }}
+    </div>
+
+    <div class = "pie-chart">
+        <h2> Tasks by priority due in the next 30d </h2>
+        {{ pie_chart|safe }}
+    </div>
 
 </body>
 </html>
