@@ -5,12 +5,15 @@ import plotly.io as pio
 from django.shortcuts import redirect, render
 from .models import Task
 from .forms import TaskForm
+from lockdown.decorators import lockdown
+from django.contrib.auth import logout
 
 
 
 def landing_page(request):
     return render(request, 'landing_page.html')
 
+@lockdown()
 def dashboard(request):
     tasks = Task.objects.all()
     next_30_days = datetime.now() + timedelta(days=30)
@@ -50,13 +53,20 @@ def dashboard(request):
 
     }
 
+    logout_user(request)
     return render(request, 'dashboard.html', taskData)
 
+def logout_user(request):
+    logout(request)
+    request.session.flush()
+
+@lockdown()
 def add_task(request):
     if request.method == 'POST':
         form = TaskForm(request.POST)
         if form.is_valid():
             form.save()
+            logout_user(request)
             return redirect('landing_page')
     else:
         form= TaskForm()
